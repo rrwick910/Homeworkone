@@ -43,7 +43,9 @@ def create():
         brokenlaptop = BrokenLaptop(brand=brand,price=price)
         db.session.add(brokenlaptop)
         db.session.commit()
-        
+     
+        brokenlaptops=BrokenLaptop.query.all()
+        return render_template("create.html",brokenlaptops=brokenlaptops)   
     # now adde two lines to retrive all the BrokenLaptops from the database and display 
     # as it is done in '/' index route 
     
@@ -52,8 +54,10 @@ def create():
 def delete(laptop_id):
     brokenlaptop = BrokenLaptop.query.get(laptop_id)
     db.session.delete(brokenlaptop)
+    db.session.commit()
     # add a line of code to commit the delete operation 
-    
+    brokenlaptops=BrokenLaptop.query.all()
+    return render_template("delete.html",brokenlaptops=brokenlaptops)
     
     # now adde two lines to retrive all the BrokenLaptops from the database and display 
     # as it is done in '/' index route 
@@ -61,16 +65,25 @@ def delete(laptop_id):
 @app.route('/update/<laptop_id>', methods=['GET','POST']) # add id 
 def update(laptop_id):
     if request.form:
+        newbrand=request.form.get("brand")
+        newprice=request.form.get("price")
+        #brokenlaptop=BrokenLaptop(brand=brand,price=price)
+        
+        brokenlaptop=BrokenLaptop.query.get(laptop_id)
+        brokenlaptop.brand=newbrand
+        brokenlaptop.price=newprice
+        #db.session.update(brokenlaptop)
+        db.session.commit()
         
         # in this block, a modified instance of BrokenLaptop is coming in along with id
         # add few lines of code so that the modification is saved in the database 
         # for example, Brand of a laptop should be updated from 'Dell' to 'Dell Latitude'
         # code snippet will be similar to create() method 
         db.session.commit()
-        
         return redirect("/")
 
-
+        brokenlaptops=BrokenLaptop.query.all()
+        return render_template("update.html",brokenlaptops=brokenlaptops)
     # now adde two lines to retrive all the BrokenLaptops from the database and display 
     # as it is done in '/' index route 
 
