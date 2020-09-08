@@ -3,6 +3,7 @@ from flask import render_template
 from flask import request
 from flask import redirect
 
+
 # install using,  pip3 install sqlalchemy flask-sqlalchemy 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -46,7 +47,7 @@ def create():
     
     brokenlaptops = BrokenLaptop.query.all()
     return render_template("create.html",brokenlaptops=brokenlaptops)    
-    # now add two lines to retrieve all the BrokenLaptops from the database and display 
+    # now add two lines to retrieve all the BrokenLaptop from the database and display 
     # as it is done in '/' index route 
     
     
@@ -60,7 +61,7 @@ def delete(laptop_id):
     
     brokenlaptops = BrokenLaptop.query.all()
     return render_template("delete.html",brokenlaptops=brokenlaptops)  
-    # now add two lines to retrieve all the BrokenLaptops from the database and display 
+    # now add two lines to retrieve all the BrokenLaptop from the database and display 
     # as it is done in '/' index route 
     
 @app.route('/update/<laptop_id>', methods=['GET','POST']) # add id 
@@ -79,9 +80,9 @@ def update(laptop_id):
         db.session.commit()
         return redirect("/")
 
-    brokenlaptop = BrokenLaptop.query.all()
+    brokenlaptop = BrokenLaptop.query.get(laptop_id)
     return render_template("update.html",brokenlaptop=brokenlaptop)
-    # now adde two lines to retrive all the BrokenLaptops from the database and display 
+    # now adde two lines to retrive all the BrokenLaptop from the database and display 
     # as it is done in '/' index route 
 
 # this class creates a table in the database named broken_laptop with 
